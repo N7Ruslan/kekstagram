@@ -30,8 +30,10 @@ const getNumberFromString = (value) => {
   return +newString;
 };
 
-//Второй вариант решения через рег.выражения
-/* const getNumberFromString = (value) => {
+getNumberFromString('qwe123 a3');
+
+/* Второй вариант решения через рег.выражения
+const getNumberFromString = (value) => {
   if (typeof value === 'number') {
     return Math.abs(Number(String(value).replace('.', '')));
   }
@@ -48,3 +50,17 @@ const getNumberFromString = (value) => {
 
   return +value;
 }; */
+
+const creatString = (firstString, lengthString, secondString) => {
+  while (firstString.length < lengthString) {
+    firstString = secondString.slice(0, lengthString - firstString.length) + firstString;
+  }
+
+  return firstString;
+};
+
+creatString('1', 2, '0');
+creatString('1', 4, '0');
+creatString('q', 4, 'werty');
+creatString('q', 4, 'we');
+creatString('qwerty', 4, '0');
