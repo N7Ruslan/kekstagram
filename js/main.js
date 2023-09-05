@@ -1,66 +1,96 @@
-const isPalindrome = (string) => {
-  string.replaceAll(' ', '').toLowerCase().split('').reverse().join('');
+const amountData = 25;
+const ID_MIN = 1;
+const ID_MAX = 25;
+const generationRandomIdNumber = getRandomValue(ID_MIN, ID_MAX);
+const MIN_URL = 1;
+const MAX_URL = 25;
+const generationRandomUrlNumber = getRandomValue(MIN_URL, MAX_URL);
+const MIN_NUMBER_LIKES = 15;
+const MAX_NUMBER_LIKES = 200;
+const MIN_ID_COMMENT = 1;
+const MAX_ID_COMMENT = 300;
+const MIN_AVATAR_COMMENT = 1;
+const MAX_AVATAR_COMMENT = 6;
+const generationRandomIdComment = getRandomValue(MIN_ID_COMMENT, MAX_ID_COMMENT);
+const PHOTO_DESCRIPTIONS = [
+  'Какой шикарный вид на отель!!! Мы скоро тоже туда поедем!',
+  'Надпись на указатели "путь к пляжу"',
+  'Пляж и море - вот, что мне не хватает',
+  'Красивая девушка с фотокамерой',
+  'Два рисовых человечка принимают ванну в тарелке',
+  'Крутая тачка!!!',
+  'Диссерт из клубники',
+  'Холодный морс из ягод',
+  'Люди рады неожиданному гостю на пляже',
+  'Крутая штука для обуви!!!',
+  'Ограждение на пляже - красиво сделанно',
+  'АУДИ на окрайне города',
+  'Интересное блюдо, но есть бы его не стал',
+  'КОТО-СУШИ',
+  'Крутые "ТЯГИ"',
+  'Эта картинки такая умиротворяющая',
+  'Репетиция перед концертом',
+  'Ммм шикарная тачка. Старая школа!',
+  'Эта картинка меня заставляет тревожиться',
+  'Вечерний вид на пляжные дома',
+  'Вкусный обед!!! Рекомендую!!',
+  'Солнечный заказ, так красиво!',
+  'Крааааааабик))',
+  'Классный концерт!!!',
+  'Неожиданный гость)))',
+];
+const COMMENTS = [
+  'Всё отлично!',
+  'В целом всё неплохо.Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра.В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают.Как можно было поймать такой неудачный момент ?!'
+];
+const NAMES = [
+  'Александр', 'Анастасия', 'Андрей', 'Владислав', 'Валентина',
+  'Георгий', 'Дарья', 'Дмитрий', 'Екатерина', 'Евгений',
+  'Ирина', 'Илья', 'Ксения', 'Кирилл', 'Лариса',
+  'Михаил', 'Марина', 'Никита', 'Ольга', 'Петр',
+  'Светлана', 'Сергей', 'Татьяна', 'Федор', 'Юлия'
+];
+
+const getRandomNumber = (minNumber, maxNumber) => {
+  const minId = Math.floor(Math.min(Math.abs(minNumber), Math.abs(maxNumber)));
+  const maxId = Math.ceil(Math.max(Math.abs(minNumber), Math.abs(maxNumber)));
+  const numberId = Math.floor(Math.random() * (maxId - minId + 1) + minId);
+  return numberId;
 };
 
-isPalindrome('топот');
-
-const getNumberFromString = (value) => {
-
-  if (typeof value === 'number') {
-    return Math.abs(Number(String(value).replace('.', '')));
-  }
-
-  value = value.replaceAll(' ', '').split('');
-  let newString = '';
-
-  for (let i = 0; i < value.length; i++) {
-    if (!isNaN(Number(value[i]))) {
-      newString += value[i];
+function getRandomValue(min, max) {
+  const idNumbers = [];
+  return function () {
+    let id = getRandomNumber(min, max);
+    if (idNumbers.length >= (max - min + 1)) {
+      return null;
     }
-  }
+    while (idNumbers.includes(id)) {
+      id = getRandomNumber(min, max);
+    }
+    idNumbers.push(id);
+    return id;
+  };
+}
 
-  while (newString.startsWith('0', 0)) {
-    newString = newString.replace('0', '');
-  }
+const getCommentDate = () => ({
+  id: generationRandomIdComment(),
+  avatar: `img/avatar-${getRandomNumber(MIN_AVATAR_COMMENT, MAX_AVATAR_COMMENT)}.svg`,
+  message: COMMENTS[getRandomNumber(0, COMMENTS.length - 1)],
+  name: NAMES[getRandomNumber(0, PHOTO_DESCRIPTIONS.length - 1)]
+});
 
-  if (newString.length === 0) {
-    return NaN;
-  }
+const generationPhotoData = () => ({
+  id: generationRandomIdNumber(),
+  url: `photos/${generationRandomUrlNumber()}.jpg`,
+  description: PHOTO_DESCRIPTIONS[getRandomNumber(0, PHOTO_DESCRIPTIONS.length - 1)],
+  likes: getRandomNumber(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
+  comments: getCommentDate()
+});
 
-  return +newString;
-};
-
-getNumberFromString('qwe123 a3');
-
-/* Второй вариант решения через рег.выражения
-const getNumberFromString = (value) => {
-  if (typeof value === 'number') {
-    return Math.abs(Number(String(value).replace('.', '')));
-  }
-
-  value = value.replaceAll(/[\D]+/gi, '');
-
-  while (value.length > 0 && value.startsWith('0', 0)) {
-    value = value.replace('0', '');
-  }
-
-  if (value.length === 0) {
-    return NaN;
-  }
-
-  return +value;
-}; */
-
-const creatString = (firstString, lengthString, secondString) => {
-  while (firstString.length < lengthString) {
-    firstString = secondString.slice(0, lengthString - firstString.length) + firstString;
-  }
-
-  return firstString;
-};
-
-creatString('1', 2, '0');
-creatString('1', 4, '0');
-creatString('q', 4, 'werty');
-creatString('q', 4, 'we');
-creatString('qwerty', 4, '0');
+const photoData = Array.from({ length: amountData }, generationPhotoData);
+photoData();
