@@ -57,3 +57,27 @@ const creatString = (firstString, lengthString, secondString) => {
 };
 
 creatString('1', 2, '0');
+
+const getRandomNumber = (minNumber, maxNumber) => {
+  const minId = Math.floor(Math.min(Math.abs(minNumber), Math.abs(maxNumber)));
+  const maxId = Math.ceil(Math.max(Math.abs(minNumber), Math.abs(maxNumber)));
+  const numberId = Math.floor(Math.random() * (maxId - minId + 1) + minId);
+  return numberId;
+};
+
+const getRandomValue = (min, max) => {
+  const idNumbers = [];
+  return function () {
+    let id = getRandomNumber(min, max);
+    if (idNumbers.length >= (max - min + 1)) {
+      return null;
+    }
+    while (idNumbers.includes(id)) {
+      id = getRandomNumber(min, max);
+    }
+    idNumbers.push(id);
+    return id;
+  };
+};
+
+export { getRandomNumber, getRandomValue };
