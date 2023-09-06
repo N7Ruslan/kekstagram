@@ -12,6 +12,8 @@ const MAX_ID_COMMENT = 300;
 const MIN_AVATAR_COMMENT = 1;
 const MAX_AVATAR_COMMENT = 6;
 const generationRandomIdComment = getRandomValue(MIN_ID_COMMENT, MAX_ID_COMMENT);
+const MIN_COMMENT = 1;
+const MAX_COMMENT = 10;
 const PHOTO_DESCRIPTIONS = [
   'Какой шикарный вид на отель!!! Мы скоро тоже туда поедем!',
   'Надпись на указатели "путь к пляжу"',
@@ -77,7 +79,7 @@ function getRandomValue(min, max) {
   };
 }
 
-const getCommentDate = () => ({
+const generationCommentData = () => ({
   id: generationRandomIdComment(),
   avatar: `img/avatar-${getRandomNumber(MIN_AVATAR_COMMENT, MAX_AVATAR_COMMENT)}.svg`,
   message: COMMENTS[getRandomNumber(0, COMMENTS.length - 1)],
@@ -89,8 +91,8 @@ const generationPhotoData = () => ({
   url: `photos/${generationRandomUrlNumber()}.jpg`,
   description: PHOTO_DESCRIPTIONS[getRandomNumber(0, PHOTO_DESCRIPTIONS.length - 1)],
   likes: getRandomNumber(MIN_NUMBER_LIKES, MAX_NUMBER_LIKES),
-  comments: getCommentDate()
+  comments: Array.from({ length: getRandomNumber(MIN_COMMENT, MAX_COMMENT) }, generationCommentData)
 });
 
 const photoData = Array.from({ length: amountData }, generationPhotoData);
-photoData();
+console.log(photoData);
