@@ -1,2 +1,2 @@
-import { createPhotoData } from './data.js';
-createPhotoData();
+import { createsUserImage } from './drawing-thumbnails.js';
+createsUserImage();
